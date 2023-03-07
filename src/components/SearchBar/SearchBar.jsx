@@ -1,4 +1,9 @@
 import { Component } from "react";
+// import { toast } from 'react-toastify';
+import { Searchbar, SearchForm, SearchFormButton, ButtonLabel, SearchFormInput } from "./SearchBar.styled";
+import { BiSearch } from "react-icons/bi";
+
+
 
 export class SearchBar extends Component {
 
@@ -14,26 +19,30 @@ export class SearchBar extends Component {
 
   handlerSubmit = (event) => { 
     event.preventDefault();
+    // if (!this.keyWord) {
+    //   return toast.error(' Enter keyword')
+    // };
     this.props.onSubmit(this.state.keyWord);
-    this.reset()
+    
+ 
 
   };
 
-  reset = () => { 
-    this.setState({keyWord: ''})
-  };
+  // reset = () => { 
+  //   this.setState({keyWord: ''})
+  // };
 
   render() {
       return (
-        <header className="searchbar">
-          <form onSubmit={this.handlerSubmit}
-            className="form">
-    <button type="submit" className="button">
-      <span className="button-label">Search</span>
-    </button>
+<Searchbar >
+  <SearchForm onSubmit={this.handlerSubmit}>
+    <SearchFormButton type="submit">
+              <ButtonLabel>
+                <BiSearch />
+              </ButtonLabel>
+    </SearchFormButton>
 
-    <input
-      className="input"
+    <SearchFormInput
       type="text"
       autoComplete="off"
       autoFocus
@@ -42,8 +51,8 @@ export class SearchBar extends Component {
       value={this.state.keyWord}
       onChange={this.handlerChange}
     />
-  </form>
-</header>
+  </SearchForm>
+</Searchbar>
     )
     }
  };

@@ -1,62 +1,63 @@
-import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
 import PropTypes from 'prop-types';
+import { ColorRing } from  'react-loader-spinner'
 import { Component } from "react";
+import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
 import { fetchApi } from "components/API/Fetch";
 import { Button } from "components/Button/Button";
+import { Gallery } from "./ImageGallery.styled";
 
 export class ImageGallery extends Component { 
 
     state = {
         images: [],
         page: 1,
-        lastLoadedImg : []
+        status: 'idle'
+        // lastLoadedImg : []
         
     };
 
 
-    componentDidMount() { 
-       
-      
-    };
-
     componentDidUpdate(prevProps, prevState) {
-        const { keyWord, page } = this.props;
-       
-        if (prevProps.keyWord !== keyWord) { 
+        const { keyWord} = this.props;
+        const { page } = this.state;
+
+        if (prevProps.keyWord !== keyWord || prevState.page !== page) { 
+            if (prevProps.keyWord !== keyWord) {
+                this.resetPage();
+                this.resetImages();
+            }
             
-            fetchApi(keyWord, page).then(images => this.setState({ images: images.hits }))
+            fetchApi(keyWord, page).then(images => this.setState(prevState=>({images: [...prevState.images, ...images.hits]})))
                 .catch(error => console.log(error));
             
-            this.resetPage();
         };
-
         
     };
 
      handlerLoadMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }));
-
-    const {keyWord, page } = this.props;
-    fetchApi(keyWord, page).then(images => this.setState({ lastLoadedImg: images.hits }))
-      .catch(error => console.log(error));
-    
-     };
-
-    handlerAddImages = () => { 
-        const newImages = this.state.lastLoadedImg;
-        this.setState(prevState=>{})
+    this.setState(prevState => ({ page: prevState.page + 1 }));       
     };
+
+    // handlerAddImages = () => { 
+    //     const newImages = this.state.lastLoadedImg;
+    //     this.setState(prevState=>({images:[...prevState.images, ...newImages]}))
+    // };
     
     resetPage = () => {
-        this.prevState({page:1})
-     };
+        this.setState({page:1})
+    };
+
+    resetImages = () => {
+        this.setState({images:[]})
+    };
 
     render() {
         return (
             <>
-        <ul className="gallery">
+        <Gallery >
+               {this.state.images === [] && <ColorRing />}
                 <ImageGalleryItem images={ this.state.images} />
-        </ul>
+        </Gallery>
         <Button onClick = {this.handlerLoadMore} />    
             </>
     )
@@ -67,8 +68,8 @@ export class ImageGallery extends Component {
 ImageGalleryItem.propTypes = {
     images: PropTypes.arrayOf(PropTypes.shape({
         webformatURL: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired,
-        tag: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
+        tag: PropTypes.string,
 
     }),).isRequired,
 };
