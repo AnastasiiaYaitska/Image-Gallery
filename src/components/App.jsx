@@ -1,14 +1,14 @@
 import { Component } from "react";
 import PropTypes from 'prop-types';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
 import { GlobalStyle } from "./GlobalStyle";
 import { Container } from "./App.styled";
 import { SearchBar } from "./SearchBar/SearchBar";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
-// import { Button } from "./Button/Button";
 // import { Loader } from "./Loader/Loader";
+// import { Button } from "./Button/Button";
 // import { fetchApi } from "./API/Fetch";
 
 
@@ -39,14 +39,10 @@ export class App extends Component {
   render() {
     return (
       <Container>
-        <ToastContainer/>
+        {/* <ToastContainer/> */}
         <SearchBar onSubmit={this.handlerFormSubmit} />
-   
         <ImageGallery
-          keyWord={this.state.keyWord}
-
-         />
-        {/* <Button onClick={ this.handlerLoadMore} /> */}
+          keyWord={this.state.keyWord}/>
      
         <GlobalStyle/>
       </Container>
