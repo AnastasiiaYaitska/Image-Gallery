@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Overlay = styled.div`
   position: fixed;
@@ -11,10 +11,9 @@ export const Overlay = styled.div`
   align-items: center;
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 1200;
-
 `;
 
 export const ModalWindow = styled.div`
-   max-width: calc(100vw - 48px);
+  max-width: calc(100vw - 48px);
   max-height: calc(100vh - 24px);
 `;
